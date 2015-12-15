@@ -9,6 +9,11 @@ import schema from "./data/schema";
 import GraphQLHTTP from "express-graphql";
 
 import routes from './routes/index';
+import users from './routes/users';
+import posts from './routes/posts';
+
+import mongoose from 'mongoose';
+mongoose.connect('mongodb://127.0.0.1/reddit');
 
 let PORT = process.env.PORT || 3000;
 
@@ -27,6 +32,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
+app.use('/users', users);
+app.use('/posts', posts);
 
 app.use("/graphql", GraphQLHTTP({
   schema,
@@ -68,4 +75,4 @@ app.listen(PORT, () => {
   console.log(`I'm listening on this port: ${PORT}`);
 })
 
-
+export default app; 
